@@ -1,0 +1,14 @@
+cir_alpha: 2
+cir_beta: 1.922
+cir_rho: 0.634
+std_param: 0.16337511146228745
+scale_d18O: 0.9945893389851731
+shift_d18O: 0.1010264890403795
+a_14C: 10.0
+b_14C: 11.0
+a_d18O: 3.0
+b_d18O: 4.0
+start_depth: 0.0
+minimum_age_thredhold: -0.1
+num_samples: 1000
+num_inducing_depths: 224

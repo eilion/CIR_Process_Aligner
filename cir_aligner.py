@@ -82,7 +82,7 @@ class RECORD():
         else:
             self.C14 = pd.read_csv(path_to_14C)
         if path_to_ETC.strip() == '':
-            self.ETC = pd.DataFrame(columns=['depth', 'age', 'unct', 'mode'])
+            self.ETC = pd.DataFrame(columns=['depth', 'age', 'unct'])
         else:
             self.ETC = pd.read_csv(path_to_ETC)
         self.depth = np.concatenate([self.d18O.depth.to_numpy(), self.C14.depth.to_numpy(), self.ETC.depth.to_numpy()])

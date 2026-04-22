@@ -281,7 +281,10 @@ class RECORD():
                 PSIG = interp1d(self.d18O_stack.A, self.d18O_stack.PSIG, kind="linear", axis=0, bounds_error=False, fill_value="extrapolate", assume_sorted=True)(AA_Y)
 
                 ZZ = (YY-self.scale_d18O*MU-self.shift_d18O)/self.scale_d18O
-                ALPHA = ((2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/ (2.0*self.b_d18O+(ZZ**2)*(SIG**2))-SIG*PSIG)
+                if np.isinf(self.a_d18O) and np.isinf(self.b_d18O):
+                    ALPHA = ZZ*(SIG**2)*PMU + (ZZ**2)*(SIG**3)*PSIG - SIG*PSIG
+                else:
+                    ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
 
                 ALPHA = QQ_Y@ALPHA
 
@@ -482,7 +485,9 @@ class RECORD():
 
             ZZ = (YY-self.scale_d18O*MU-self.shift_d18O)/self.scale_d18O
 
-            if not (np.isinf(self.a_d18O) and np.isinf(self.b_d18O)):
+            if (np.isinf(self.a_d18O) and np.isinf(self.b_d18O)):
+                LOGLIK_old += np.sum(-0.5*(ZZ**2)*(SIG**2)+np.log(SIG)-np.log(self.scale_d18O),axis=0)
+            else:
                 LOGLIK_old += np.sum(-(self.a_d18O+0.5)*np.log(1.0+(ZZ**2)*(SIG**2)/(2.0*self.b_d18O))+np.log(SIG)-np.log(self.scale_d18O),axis=0)
 
         # 14C
@@ -539,7 +544,10 @@ class RECORD():
                 PSIG = interp1d(self.d18O_stack.A, self.d18O_stack.PSIG, kind="linear", axis=0, bounds_error=False, fill_value="extrapolate", assume_sorted=True)(AA_Y)
 
                 ZZ = (YY-self.scale_d18O*MU-self.shift_d18O)/self.scale_d18O
-                ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
+                if np.isinf(self.a_d18O) and np.isinf(self.b_d18O):
+                    ALPHA = ZZ*(SIG**2)*PMU + (ZZ**2)*(SIG**3)*PSIG - SIG*PSIG
+                else:
+                    ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
 
                 ALPHA = QQ_Y@ALPHA
 
@@ -638,7 +646,10 @@ class RECORD():
                     PSIG = interp1d(self.d18O_stack.A, self.d18O_stack.PSIG, kind="linear", axis=0, bounds_error=False, fill_value="extrapolate", assume_sorted=True)(AA_Y)
 
                     ZZ = (YY-self.scale_d18O*MU-self.shift_d18O)/self.scale_d18O
-                    ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
+                    if np.isinf(self.a_d18O) and np.isinf(self.b_d18O):
+                        ALPHA = ZZ*(SIG**2)*PMU + (ZZ**2)*(SIG**3)*PSIG - SIG*PSIG
+                    else:
+                        ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
 
                     ALPHA = QQ_Y@ALPHA
 
@@ -733,7 +744,10 @@ class RECORD():
                 PSIG = interp1d(self.d18O_stack.A, self.d18O_stack.PSIG, kind="linear", axis=0, bounds_error=False, fill_value="extrapolate", assume_sorted=True)(AA_Y)
 
                 ZZ = (YY-self.scale_d18O*MU-self.shift_d18O)/self.scale_d18O
-                ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
+                if np.isinf(self.a_d18O) and np.isinf(self.b_d18O):
+                    ALPHA = ZZ*(SIG**2)*PMU + (ZZ**2)*(SIG**3)*PSIG - SIG*PSIG
+                else:
+                    ALPHA = (2.0*self.a_d18O+1.0)*(ZZ*(SIG**2)*PMU+(ZZ**2)*(SIG**3)*PSIG)/(2.0*self.b_d18O+(ZZ**2)*(SIG**2)) - SIG*PSIG
 
                 ALPHA = QQ_Y@ALPHA
 
@@ -819,7 +833,9 @@ class RECORD():
 
                 ZZ = (YY-self.scale_d18O*MU-self.shift_d18O)/self.scale_d18O
 
-                if not (np.isinf(self.a_d18O) and np.isinf(self.b_d18O)):
+                if (np.isinf(self.a_d18O) and np.isinf(self.b_d18O)):
+                    LOGLIK_new += np.sum(-0.5*(ZZ**2)*(SIG**2)+np.log(SIG)-np.log(self.scale_d18O),axis=0)
+                else:
                     LOGLIK_new += np.sum(-(self.a_d18O+0.5)*np.log(1.0+(ZZ**2)*(SIG**2)/(2.0*self.b_d18O))+np.log(SIG)-np.log(self.scale_d18O),axis=0)
 
             # 14C
@@ -936,7 +952,10 @@ class RECORD():
                 for r in range(1, 10001):
                     PDEV = np.zeros((2,), dtype=float)
 
-                    QQ = (2.0*self.a_d18O+1.0)*(YY_valid-CC*MU-HH)/(2.0*self.b_d18O*(CC**2)*(SIG**2)+(YY_valid-CC*MU-HH)**2)
+                    if (np.isinf(self.a_d18O) and np.isinf(self.b_d18O)):
+                        QQ = (YY_valid-CC*MU-HH)/((CC**2)*(SIG**2))
+                    else:
+                        QQ = (2.0*self.a_d18O+1.0)*(YY_valid-CC*MU-HH)/(2.0*self.b_d18O*(CC**2)*(SIG**2)+(YY_valid-CC*MU-HH)**2)
 
                     n_particles = AGE.shape[1]
 
